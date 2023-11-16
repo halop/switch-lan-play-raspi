@@ -7,7 +7,7 @@ The goal is to have an executable file + a config file
 
 ## Notes
 
-FULL DISCLAIMER: I have almost no coding experience, I taught myself all of this while trying to find a solution, so this comes with no gaurantee. 
+DISCLAIMER: I have almost no coding experience, I taught myself all of this while trying to find a solution, so this comes with no gaurantee. 
 
 After a lot of research and testing, I found that you must use v0.1.0 of the original switch-lan-play file in order for it to work on Raspberry Pi. Any newer version will not work. I have included my copy of that file in this git.
 
