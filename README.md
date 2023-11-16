@@ -29,7 +29,7 @@ As Root:
     flask run --host <ip of raspberry>
     
 
-It'll run on port 5000, so <ip of raspberry>:5000 in your web browser.
+It'll run on port 5000, so ip of raspberry:5000 in your web browser.
 
 ## Thanks to
 
