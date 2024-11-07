@@ -9,20 +9,20 @@
         <thead>
         <tr>
             <th scope="col">Server</th>
-            <th scope="col">Actions</th>
             <th scope="col">Status</th>
+
         </tr>
         </thead>
         <tbody>
         {% for server in servers %}
             <tr>
-                <td><b>{{ server[1] }}</b> <br> {{ server[4] }}</td>
-                <td>
+                <td><b>{{ server[1] }}</b> <br> {{ server[4] }} 
                     <form action="/run" method="post"><input id="my_input" type="hidden" name="serverAddr"
                                                              value="{{ server[1] }}">
                         <button type="submit" name="serverAddr" class="btn btn-primary">Start</button>
                     </form>
-                </td>
+				
+				</td>
                 <td>
                     {% if server[2] == true %}
                         <div><i class="bi bi-heart-fill"> Server is up</i></div>
