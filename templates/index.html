@@ -18,22 +18,21 @@
             <tr>
                 <td>
                     {% if server[2] == true %}
-                    <div><i class="bi bi-heart-fill"><b> {{ server[1] }}</b></i><br>
+                    <div><b>{{ server[1] }}</b><br>
 					{{ server[4] }}
                     <form action="/run" method="post"><input id="my_input" type="hidden" name="serverAddr"
                                                              value="{{ server[1] }}">
                         <button type="submit" name="serverAddr" class="btn btn-primary">Start</button>
                     </form></div>
                     {% else %}
-                        <div><i class="bi bi-heart-half"><b> {{ server[1] }}</b></i></div>
+                        <div><b>{{ server[1] }}</b></div>
                     {% endif %}
 					
 				
 				</td>
                 <td>
                     {% if server[2] == true %}
-                        <div><i>Server is up</i></div>
-                        <div><b>{{ server[3] }}</b> online <b>{{ server[5] }}</b>_ms</div>
+                        <div><b>{{ server[3] }}</b> online <b><br>{{ server[5] }}</b> ms</div>
                     {% else %}
                         <div><i>Server is down</i></div>
                     {% endif %}</td>
