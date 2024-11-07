@@ -1,0 +1,12 @@
+[Unit]
+Description=Flask App
+After=network.target
+
+[Service]
+User=<user>
+WorkingDirectory=/home/<user>/switch-lan-play-raspi
+ExecStart=/home/<user>/switch-lan-play-raspi/start_flask.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

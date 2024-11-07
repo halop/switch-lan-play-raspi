@@ -2,7 +2,9 @@
 
 {% block content %}
 <h4>Running Server: {{ runningServer }}</h4>
-<br> <a href="/stop"><button type="submit" name="serverAddr" class="btn btn-primary">Stop</button></a> <br>
+<br>
+<a href="/stop"><button type="submit" name="serverAddr" class="btn btn-primary">Stop</button></a>
+<br>
 <table class="table">
   <thead>
     <tr>
@@ -10,20 +12,30 @@
       <th scope="col">Address</th>
       <th scope="col">Actions</th>
       <th scope="col">Status</th>
+      <th scope="col">Ping</th>
     </tr>
   </thead>
   <tbody>
-  	{% for server in servers %}
+    {% for server in servers %}
     <tr>
       <td>{{ server[0] }}</td>
       <td>{{ server[1] }}</td>
-      <td><form action="/run" method="post"> <input id="my_input" type="hidden" name="serverAddr" value="{{ server[1] }}"><button type="submit" name="serverAddr" class="btn btn-primary">Start</button></form></td>
       <td>
-        {% if server[2] == true %}
-        <div><i class="bi bi-heart-fill">Server is up - {{ server[3] }} people online</i></div>
+        <form action="/run" method="post">
+          <input id="my_input" type="hidden" name="serverAddr" value="{{ server[1] }}">
+          <button type="submit" name="serverAddr" class="btn btn-primary">Start</button>
+        </form>
+      </td>
+      <td>
+        {% if server[3] == true %}
+        <div><i class="bi bi-heart-fill">Server is up - {{ server[4] }} people online</i></div>
         {% else %}
         <div><i class="bi bi-heart-half">Server is down</i></div>
-        {% endif %}</td>
+        {% endif %}
+      </td>
+      <td>{{ server[2] }}</td>
     </tr>
- 	{% endfor %}
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
