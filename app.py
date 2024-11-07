@@ -4,14 +4,14 @@ import subprocess
 import shlex
 import psutil
 import os
-import json, urllib.request
+import json,urllib.request
 
-running = False
-runningServer = "None"
+running=False
+runningServer="None"
 
 def startProgramm(cmd):
     stopProgramm()
-    command = "./lan-play --netif eth0 --relay-server-addr " + cmd
+    command = "./lan-play --netif eth0 --relay-server-addr " +cmd
     logfile = open('output', 'w', 1)
     proc = subprocess.Popen(shlex.split(command), stdout=logfile, bufsize=1)
     return True
@@ -70,10 +70,10 @@ def index():
 def execute():
     global running
     global runningServer
-    if running == True:
+    if running==True:
         pass
     else:
-        cmd = request.form['serverAddr']
+        cmd =request.form['serverAddr']
         running = startProgramm(cmd)
         runningServer = cmd
     return redirect('/')
