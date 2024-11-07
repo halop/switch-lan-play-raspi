@@ -1,5 +1,5 @@
 # Lan Play Switch WebUI for Raspberry Pi
-![Screenshot of GUI](https://github.com/RareCandyMan/switch-lan-play-raspi/blob/main/screenshot.PNG)
+![Screenshot of GUI](https://github.com/halop/switch-lan-play-raspi/blob/main/screenshot.PNG)
 Small WebApp to manage Lan Play for Switch  on a Raspberry Pi created with Flask.
 Compiled lan-play for ARM32 & ARM64 is included.
 It's still very much WIP.
