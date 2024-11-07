@@ -11,7 +11,7 @@ runningServer="None"
 
 def startProgramm(cmd):
     stopProgramm()
-    command = "./lan-play --netif eth0 --relay-server-addr " +cmd
+    command = "./lan-play --netif eth0 --relay-server-addr "+cmd
     logfile = open('output', 'w', 1)
     proc = subprocess.Popen(shlex.split(command), stdout=logfile, bufsize=1)
     return True
