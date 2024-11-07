@@ -16,7 +16,7 @@
         <tbody>
         {% for server in servers %}
             <tr>
-                <td>{{ server[1] }}</td>
+                <td><b>{{ server[1] }}</b> <br> {{ server[4] }}</td>
                 <td>
                     <form action="/run" method="post"><input id="my_input" type="hidden" name="serverAddr"
                                                              value="{{ server[1] }}">
@@ -25,7 +25,7 @@
                 </td>
                 <td>
                     {% if server[2] == true %}
-                        <div><i class="bi bi-heart-fill"> Server is up - {{ server[4] }}</i></div>
+                        <div><i class="bi bi-heart-fill"> Server is up</i></div>
                         <div>{{ server[3] }} online - {{ server[5] }}ms</div>
                     {% else %}
                         <div><i class="bi bi-heart-half"> Server is down</i></div>
