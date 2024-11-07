@@ -1,91 +1,84 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect
 import configparser
 import subprocess
-import shlex
-import psutil
-import os
-import json,urllib.request
-
-running=False
-runningServer="None"
-
-def startProgramm(cmd):
-    stopProgramm()
-    command = "./lan-play --netif eth0 --relay-server-addr "+cmd
-    logfile = open('output', 'w', 1)
-    proc = subprocess.Popen(shlex.split(command), stdout=logfile, bufsize=1)
-    return True
-
-def stopProgramm():
-    global runningServer
-    os.system("killall -9 lan-play")
-    runningServer = "None"
-    return False
-
-def ping_server(server_ip):
-    try:
-        result = subprocess.run(["ping", "-c", "1", server_ip], capture_output=True, text=True)
-        if "time=" in result.stdout:
-            return result.stdout.split("time=")[1].split()[0] + " ms"
-        else:
-            return "No response"
-    except Exception:
-        return "Error"
-
-def getServers():
-    servers = []
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-
-    for server in config['Servers']:
-        dummy = []
-        dummy.append(server)
-        server_address = config['Servers'][server][:-6]
-
-        ping_time = ping_server(server_address)
-        dummy.append(config['Servers'][server])
-        dummy.append(ping_time)
-
-        up = True if os.system(f"nc -zv -w 1 {server_address} {11451}") == 0 else False
-        dummy.append(up)
-
-        data = urllib.request.urlopen(f"http://{config['Servers'][server]}/info").read()
-        output = json.loads(data)
-        dummy.append(output["online"])
-
-        servers.append(dummy)
-
-    return servers
+import json
+import urllib.request
+from concurrent.futures import ThreadPoolExecutor
+import socket
+import logging
+import time
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
+app.logger.setLevel(logging.INFO)
+
+runningServer = "None"
+proc = None
+
+
+def startProgramm(cmd):
+	global proc
+	stopProgramm()
+	command = f"./lan-play --relay-server-addr {cmd}"
+	proc = subprocess.Popen(command.split())
+
+
+def stopProgramm():
+	global runningServer
+	if proc is not None:
+		proc.terminate()
+		proc.wait()
+	runningServer = "None"
+
+
+def check_server(server, address):
+	split_addr = address.split(":")
+
+	# check if the port is open
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	sock.settimeout(0.5)
+	start = time.time()
+	up = sock.connect_ex((split_addr[0], int(split_addr[1]))) == 0
+	end = time.time()
+	ping = round((end - start)*1000)
+	sock.close()
+
+	if up:
+		app.logger.info(f"{address}: port is open - {ping}ms")
+		# get online count
+		data = urllib.request.urlopen(f"http://{address}/info").read()
+	else:
+		app.logger.info(f"{address}: port is closed")
+		return [server, address, up]
+
+	return [server, address, up, json.loads(data)["online"], json.loads(data)["version"], ping]
+
+
+def getServers():
+	config = configparser.ConfigParser()
+	config.read('config.ini')
+	with ThreadPoolExecutor() as executor:
+		servers = list(executor.map(check_server, config['Servers'].keys(), config['Servers'].values()))
+	return servers
+
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    global runningServer
-    servers = getServers()
-    return render_template('index.html', servers=servers, runningServer=runningServer)
+	servers = getServers()
+	return render_template('index.html', servers=servers, runningServer=runningServer)
+
 
 @app.route("/run/", methods=['POST', 'GET'])
 def execute():
-    global running
-    global runningServer
-    if running==True:
-        pass
-    else:
-        cmd =request.form['serverAddr']
-        running = startProgramm(cmd)
-        runningServer = cmd
-    return redirect('/')
+	global runningServer
+	cmd = request.form['serverAddr']
+	if runningServer != cmd:
+		startProgramm(cmd)
+		runningServer = cmd
+	return redirect('/')
+
 
 @app.route("/stop/")
 def stop():
-    global running
-    running = stopProgramm()
-    return redirect('/')
-
-@app.route("/logs/")
-def logs():
-    global running
-    running = stopProgramm()
-    return redirect('/')
+	stopProgramm()
+	return redirect('/')
