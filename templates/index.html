@@ -8,8 +8,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Address</th>
+      <th scope="col">Server</th>
       <th scope="col">Actions</th>
       <th scope="col">Status</th>
       <th scope="col">Ping</th>
@@ -18,7 +17,6 @@
   <tbody>
     {% for server in servers %}
     <tr>
-      <td>{{ server[0] }}</td>
       <td>{{ server[1] }}</td>
       <td>
         <form action="/run" method="post">
