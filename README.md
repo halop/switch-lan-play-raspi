@@ -18,7 +18,6 @@ Currently only the servers are configurable.
 
 
 ## Running
-As Root:
 
     git clone https://github.com/halop/switch-lan-play-raspi.git
     cd switch-lan-play-raspi
