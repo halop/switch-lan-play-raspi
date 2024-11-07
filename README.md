@@ -10,7 +10,6 @@ The goal is to have an executable file + a config file
 
 After a lot of research and testing, I found that you must use v0.1.0 of the original switch-lan-play file in order for it to work on Raspberry Pi. Any newer version will not work. I have included my copy of that file in this git.
 
-Ping added to the serverlist.
 
 ## Config
 
@@ -22,12 +21,19 @@ Currently only the servers are configurable.
 As Root:
 
 git clone https://github.com/RareCandyMan/switch-lan-play-raspi.git
+
 cd switch-lan-play-raspi
+
 python3 -m venv myenv
+
 source myenv/bin/activate
+
 pip3 install -r requirements.txt
+
 chmod +x lan-play
+
 sudo setcap cap_net_raw,cap_net_admin=eip /home/<user>/switch-lan-play-raspi/lan-play
+
 python -m flask run --host <ip of raspberry>
 
     
