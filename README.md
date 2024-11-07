@@ -20,21 +20,15 @@ Currently only the servers are configurable.
 ## Running
 As Root:
 
-git clone https://github.com/RareCandyMan/switch-lan-play-raspi.git
+    git clone https://github.com/halop/switch-lan-play-raspi.git
+    cd switch-lan-play-raspi
+    python3 -m venv myenv
+    source myenv/bin/activate
+    pip3 install -r requirements.txt
+    chmod +x lan-play
+    sudo setcap cap_net_raw,cap_net_admin=eip /home/<user>/switch-lan-play-raspi/lan-play
+    python -m flask run --host <ip of raspberry>
 
-cd switch-lan-play-raspi
-
-python3 -m venv myenv
-
-source myenv/bin/activate
-
-pip3 install -r requirements.txt
-
-chmod +x lan-play
-
-sudo setcap cap_net_raw,cap_net_admin=eip /home/<user>/switch-lan-play-raspi/lan-play
-
-python -m flask run --host <ip of raspberry>
 
     
 
