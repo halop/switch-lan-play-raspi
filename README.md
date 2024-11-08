@@ -18,8 +18,7 @@ The goal is to have an executable file + a config file
     source myenv/bin/activate
     pip3 install -r requirements.txt
     chmod +x lan-play
-    sudo setcap cap_net_raw,cap_net_admin=eip /home/<user>/switch-lan-play-raspi/lan-play
-    python -m flask run --host <ip of raspberry>
+    sudo /home/<user>/switch-lan-play-raspi/myenv/bin/flask run --host <ip of raspberry>
 
 
     
