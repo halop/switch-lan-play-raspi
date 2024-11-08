@@ -12,6 +12,7 @@ The goal is to have an executable file + a config file
 ## Running
 
     git clone https://github.com/halop/switch-lan-play-raspi.git
+    sudo apt install libpcap0.8 libuv1
     cd switch-lan-play-raspi
     python3 -m venv myenv
     source myenv/bin/activate
